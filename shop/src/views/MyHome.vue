@@ -52,7 +52,7 @@
             class="product-item"
             @click="addToCart(item)"
           >
-            <img :src="'/assets/img/' + item.商品圖片" :alt="item.商品名稱" />
+            <img :src="'http://localhost:8080/files/view/' + item.商品圖片" :alt="item.商品名稱" />
             <div class="product-info">
               <span class="product-name">{{ item.商品名稱 }}</span>
               <span class="product-price">{{ item.價格 }}元</span>
@@ -597,7 +597,7 @@
     font-weight: 700;
     color: var(--c-primary);
     font-size: 1.2rem;
-    padding-right:3% ;
+    padding-right: 3%;
   }
 
   .prod-arrow {

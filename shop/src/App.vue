@@ -10,7 +10,7 @@
 
             <RouterLink v-if="i == 4" to="/shop">購物車</RouterLink>
             <RouterLink v-if="i == 5" to="/listupdate">訂單紀錄</RouterLink>
-            <RouterLink v-if="i == 6" to="/test">我的賣場</RouterLink>
+            <RouterLink v-if="i == 6" to="/myshop">我的賣場</RouterLink>
             <RouterLink v-if="i == 7" to="/userupdate">會員中心</RouterLink>
 
             <RouterLink v-if="i == 9" to="/" class="logout">登出</RouterLink>
