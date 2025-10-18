@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,11 +44,25 @@ const router = createRouter({
       component: () => import('../views/MyShop.vue'),
     },
     {
+      path: '/prodlist',
+      name: 'prodlist',
+      component: () => import('../views/ProdList.vue'),
+    },
+    {
       path: '/',
       name: 'login',
       component: () => import('../views/LoginView.vue'),
     },
   ],
-})
+  scrollBehavior(to, from, savedPosition) {
+    // 如果是瀏覽器的返回/前進，會自動回到原本位置
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      // 每次導航新頁面都回到最上方
+      return { top: 0 };
+    }
+  },
+});
 
-export default router
+export default router;

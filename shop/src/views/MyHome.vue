@@ -113,6 +113,8 @@
 <script>
   import { ref, computed, onMounted, watch } from 'vue';
   import { useRouter } from 'vue-router';
+  import { useUserStore } from '@/stores/user';
+  //import { useRouter } from 'vue-router';
 
   export default {
     setup() {
@@ -123,6 +125,26 @@
       const products = ref([]);
       const totalPages = ref(0);
       const currentPage = ref(1);
+
+      const user = ref({});
+
+      async function loaduser() {
+        const userStore = useUserStore();
+        const userid = ref(userStore.id);
+        if (userid.value == null) {
+          userid.value = 1;
+        }
+        try {
+          const res = await fetch(`http://localhost:8080/user/${userid.value}`);
+          if (!res.ok) throw new Error('伺服器回應錯誤');
+          user.value = await res.json();
+
+          userStore.setUser({ id: userid.value }, { name: user.value.姓名 });
+          console.log(userStore.name);
+        } catch (err) {
+          console.error('讀取失敗：', err);
+        }
+      }
       async function loadProducts() {
         try {
           const res = await fetch(`http://localhost:8080/products/page/${currentPage.value - 1}`);
@@ -230,6 +252,7 @@
         window.addEventListener('resize', () => {
           slideWidth.value = trackEl.children[0].clientWidth;
         });
+        loaduser();
       });
 
       // ---------- 分頁 ----------

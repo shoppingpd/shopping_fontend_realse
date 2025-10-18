@@ -5,7 +5,10 @@
         <div class="center-left">
           <div class="image-slider">
             <!-- <button class="arrow left" @click="prevImage">&lt;</button> -->
-            <img :src="'/assets/img/' + product.商品圖片" :alt="product.商品名稱" />
+            <img
+              :src="'http://localhost:8080/files/view/' + product.商品圖片"
+              :alt="product.商品名稱"
+            />
             <!-- <button class="arrow right" @click="nextImage">&gt;</button> -->
           </div>
         </div>
@@ -181,6 +184,10 @@
       if (product.value.庫存數量 < quantity.value) {
         alert('商品庫存不足');
         return;
+      }
+      if (user.value == null) {
+        user.value = 1;
+        console.log('使用者null');
       }
       newcart.value.push({
         商品編號: product.value.商品編號,

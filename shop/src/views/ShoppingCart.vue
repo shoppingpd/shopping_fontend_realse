@@ -25,7 +25,7 @@
 
               <div class="thumb">
                 <img
-                  :src="'/assets/img/' + item.商品照片"
+                  :src="'http://localhost:8080/files/view/' + item.商品照片"
                   :alt="item.商品名稱"
                   @error="(e) => (e.target.src = placeholderImg)"
                 />

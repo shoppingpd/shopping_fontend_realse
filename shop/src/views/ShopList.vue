@@ -107,12 +107,14 @@
   import { reactive, computed, ref, onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useUserStore } from '@/stores/user';
-  const userStore = useUserStore();
+
   onMounted(() => {
     loaduser();
   });
   const freeShipping = 3000;
   const route = useRoute();
+  const userStore = useUserStore();
+  const user = ref(userStore.id);
   const state = reactive({
     items: [],
   });
@@ -128,10 +130,12 @@
     console.error('解析失敗', err);
   }
   console.log('購物車資料:', state);
-
-  const user = ref(userStore.id);
   const buyer = ref([]);
   async function loaduser() {
+    if (user.value == null) {
+      user.value = 1;
+      console.log('使用者null');
+    }
     try {
       const res = await fetch(`http://localhost:8080/user/${user.value}`);
       if (!res.ok) throw new Error('伺服器回應錯誤');
@@ -183,11 +187,23 @@
         狀態: '未出貨',
       };
       item.狀態 = '1';
-      await fetch('http://localhost:8080/list', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postlistItem),
-      });
+      try {
+        const response = await fetch('http://localhost:8080/list', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(postlistItem),
+        });
+
+        if (!response.ok) {
+          throw new Error(`伺服器回應錯誤: ${response.status}`);
+        }
+
+        const data = await response.json(); // 如果後端有回傳 JSON
+        console.log('送出成功:', data);
+      } catch (err) {
+        console.error('送出失敗:', err);
+      }
+
       try {
         const res = await fetch(`http://localhost:8080/cart/${item.購物車編號}`, {
           method: 'PUT',

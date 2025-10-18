@@ -106,15 +106,18 @@
   import { ref, onMounted } from 'vue';
   import { useUserStore } from '@/stores/user';
   import { useRouter } from 'vue-router';
-  const userStore = useUserStore();
+
   onMounted(() => {
     loadCartData();
   });
   // ----- 設定 -----
-  const myuser = ref(userStore.id); // 預設使用者1
+  const userStore = useUserStore();
+  const myuser = ref(userStore.id);
   const user = ref({});
   const bufuser = ref({});
   async function loadCartData() {
+    const userStore = useUserStore();
+    myuser.value = userStore.id;
     if (myuser.value == null) {
       myuser.value = 1;
       console.log('使用者未登入，預設為使用者1');
@@ -160,7 +163,7 @@
       console.error('錯誤：', err);
     }
   }
-const router = useRouter();
+  const router = useRouter();
   async function updatePassword() {
     if (!passwords.value.old) return alert('請輸入舊密碼！');
     if (!passwords.value.new) return alert('請輸入新密碼！');
