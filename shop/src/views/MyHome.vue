@@ -139,7 +139,8 @@
           if (!res.ok) throw new Error('伺服器回應錯誤');
           user.value = await res.json();
 
-          userStore.setUser({ id: userid.value }, { name: user.value.姓名 });
+          userStore.setUser({ id: userid.value, name: user.value.姓名 });
+
           console.log(userStore.name);
         } catch (err) {
           console.error('讀取失敗：', err);
